@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="snow"></div>
+
+  <main class="page">
+    <section class="card">
+      <div class="image-wrap">
+        <img id="clipImage" alt="Christmas memory" />
+      </div>
+      <h1 id="clipTitle">Merry Christmas 🎄</h1>
+      <p id="clipSubtitle">
+        Tap to hear a little message.
+      </p>
+
+      <button id="playButton" class="play-button">
+        Tap to listen 🎧
+      </button>
+
+      <p class="hint" id="hintText">
+        Make sure your volume is up. If you don't hear anything, tap again.
+      </p>
+    </section>
+  </main>
+
+  <!-- Silent primer to gently “warm up” autoplay -->
+  <audio id="primer" autoplay muted playsinline>
+    <source src="audio/silence.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Main audio player -->
+  <audio id="mainAudio" playsinline></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
