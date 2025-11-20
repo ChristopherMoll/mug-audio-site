@@ -1,0 +1,110 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: radial-gradient(circle at top, #fffae5 0, #c21b39 60%, #5b1221 100%);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Snow overlay */
+.snow {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.9) 0, transparent 50%),
+    radial-gradient(3px 3px at 80% 30%, rgba(255,255,255,0.8) 0, transparent 50%),
+    radial-gradient(2px 2px at 50% 80%, rgba(255,255,255,0.7) 0, transparent 50%);
+  background-size: 200px 200px;
+  animation: snow 18s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes snow {
+  from {
+    background-position: 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: 0 600px, 0 800px, 0 700px;
+  }
+}
+
+.page {
+  padding: 16px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  padding: 20px 20px 24px;
+  backdrop-filter: blur(12px);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.image-wrap {
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.image-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+h1 {
+  font-size: 1.7rem;
+  margin: 8px 0 6px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+p {
+  margin: 4px 0;
+}
+
+#clipSubtitle {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.play-button {
+  margin-top: 16px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: none;
+  font-size: 1.05rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #1bc24b, #0f8e35);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
+}
+
+.play-button:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.play-button.playing {
+  background: linear-gradient(135deg, #ffb347, #ff6b6b);
+}
+
+.hint {
+  font-size: 0.85rem;
+  margin-top: 10px;
+  opacity: 0.85;
+}
