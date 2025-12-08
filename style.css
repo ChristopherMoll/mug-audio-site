@@ -52,14 +52,20 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.image-wrap {
+.video-wrap {
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 16px;
   border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
-.image-wrap img {
+.video-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.video-wrap video {
   display: block;
   width: 100%;
   height: auto;

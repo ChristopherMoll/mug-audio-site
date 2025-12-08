@@ -1,25 +1,24 @@
-// Simple configuration for your clips.
-// You can add 3–5 here. IDs must match ?clip=... in the URL.
+// Each clip now has a video file (MP4) and optional poster image.
 const CLIPS = {
   "1": {
     title: "Merry Christmas, Mommy 🎄",
     subtitle: "A little message from your favorite boy.",
-    audio: "audio/clip-1.mp3",
-    image: "images/clip-1.jpg"
+    video: "video/clip-1.mp4",
+    poster: "images/clip-1-poster.jpg"
   },
   "2": {
     title: "Snuggles & Hot Cocoa ☕",
-    subtitle: "Press play for something cozy.",
-    audio: "audio/clip-2.mp3",
-    image: "images/clip-2.jpg"
+    subtitle: "Tap to watch something cozy.",
+    video: "video/clip-2.mp4",
+    poster: "images/clip-2-poster.jpg"
   },
   "3": {
     title: "Christmas Giggles 😄",
-    subtitle: "Tap to hear his little laugh.",
-    audio: "audio/clip-3.mp3",
-    image: "images/clip-3.jpg"
+    subtitle: "Tap to hear his laugh.",
+    video: "video/clip-3.mp4",
+    poster: "images/clip-3-poster.jpg"
   }
-  // Add "4", "5", etc. if you want more
+  // add 4, 5... as needed
 };
 
 function getClipIdFromUrl() {
@@ -33,71 +32,50 @@ function setupClip() {
 
   const titleEl = document.getElementById("clipTitle");
   const subtitleEl = document.getElementById("clipSubtitle");
-  const imageEl = document.getElementById("clipImage");
-  const audioEl = document.getElementById("mainAudio");
+  const videoEl = document.getElementById("clipVideo");
 
   titleEl.textContent = clip.title;
   subtitleEl.textContent = clip.subtitle;
-  imageEl.src = clip.image;
 
-  audioEl.src = clip.audio;
-  audioEl.preload = "auto"; // Preload for “instant” one-tap playback
+  videoEl.src = clip.video;
+  if (clip.poster) {
+    videoEl.poster = clip.poster;
+  }
+
+  // No autoplay here: we’ll only start on user tap
+  videoEl.muted = false;      // make sure default is unmuted
 }
 
-function initAudioBehavior() {
-  const audioEl = document.getElementById("mainAudio");
+function initVideoControls() {
+  const videoEl = document.getElementById("clipVideo");
   const playButton = document.getElementById("playButton");
   const hintText = document.getElementById("hintText");
 
-  let hasTriedAutoplay = false;
-
-  // Try autoplay once after the page is ready and primer has run
-  function tryAutoplay() {
-    if (hasTriedAutoplay) return;
-    hasTriedAutoplay = true;
-
-    audioEl
+  function playFromStart() {
+    videoEl.muted = false;
+    videoEl.currentTime = 0;
+    videoEl
       .play()
       .then(() => {
         playButton.classList.add("playing");
         playButton.textContent = "Playing… 🎧";
-        hintText.textContent = "You can tap again to replay.";
+        hintText.textContent = "Tap again if you want to watch it once more.";
       })
       .catch(() => {
-        // Autoplay blocked – user will need to tap
-        playButton.textContent = "Tap to listen 🎧";
+        // Very rare failure case — you could show an error if you want
       });
   }
 
-  window.addEventListener("load", () => {
-    // Give the silent primer a brief moment, then try autoplay.
-    setTimeout(tryAutoplay, 400);
-  });
+  playButton.addEventListener("click", playFromStart);
+  playButton.addEventListener("touchstart", playFromStart);
 
-  // Always allow manual play, which will work 100%
-  function handleUserPlay() {
-    audioEl
-      .play()
-      .then(() => {
-        playButton.classList.add("playing");
-        playButton.textContent = "Playing… 🎧";
-        hintText.textContent = "Tap again if you want to hear it one more time.";
-      })
-      .catch(() => {
-        // Extremely rare case; keep button as is
-      });
-  }
-
-  playButton.addEventListener("click", handleUserPlay);
-  playButton.addEventListener("touchstart", handleUserPlay);
-
-  // When the clip ends, reset the button
-  audioEl.addEventListener("ended", () => {
+  videoEl.addEventListener("ended", () => {
     playButton.classList.remove("playing");
-    playButton.textContent = "Tap to listen again 🎧";
+    playButton.textContent = "Play again 🎬";
   });
 }
 
-// Initialize everything
-setupClip();
-initAudioBehavior();
+window.addEventListener("load", () => {
+  setupClip();
+  initVideoControls();
+});
