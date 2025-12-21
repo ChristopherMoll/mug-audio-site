@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const { createPrivateKey } = require("crypto");
+
 
 // Safe to commit: these are NOT secrets.
 // For Mux signed playback, these would be "Signed Playback IDs".
@@ -30,13 +32,46 @@ exports.handler = async (event) => {
   const clip = (requestedId && CLIPS[requestedId]) ? CLIPS[requestedId] : pickRandomClip();
 
   const now = Math.floor(Date.now() / 1000);
-  const privateKey = process.env.MUX_SIGNING_KEY_PRIVATE.replace(/\\n/g, "\n");
-  console.log("private key lines:", privateKey.split("\n").length);
+  const { createPrivateKey } = require("crypto");
+
+exports.handler = async (event) => {
+  // ... your existing code above ...
+
+  const now = Math.floor(Date.now() / 1000);
+
+  const pem = (process.env.MUX_SIGNING_KEY_PRIVATE || "")
+    .replace(/\\n/g, "\n")
+    .replace(/\r/g, "");
+
+  // Your header is "BEGIN RSA PRIVATE KEY" → pkcs1
+  const keyObject = createPrivateKey({
+    key: pem,
+    format: "pem",
+    type: "pkcs1",
+  });
+
+  console.log("asymmetricKeyType:", keyObject.asymmetricKeyType); // should print "rsa"
+
   const token = jwt.sign(
-    { sub: clip.playbackId, exp: now + 60 }, // 60 seconds
-    privateKey,
+    { sub: clip.playbackId, exp: now + 60 },
+    keyObject,
     { algorithm: "RS256", keyid: process.env.MUX_SIGNING_KEY_ID }
   );
+
+  const videoUrl = `https://stream.mux.com/${clip.playbackId}.m3u8?token=${encodeURIComponent(token)}`;
+
+  return {
+    statusCode: 200,
+    headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+    body: JSON.stringify({
+      title: clip.title,
+      subtitle: clip.subtitle,
+      posterUrl: clip.posterUrl || null,
+      videoUrl
+    })
+  };
+};
+
 
   const videoUrl = `https://stream.mux.com/${clip.playbackId}.m3u8?token=${encodeURIComponent(token)}`;
 
