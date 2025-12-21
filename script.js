@@ -33,10 +33,6 @@ async function setupClip() {
   titleEl.textContent = "Loading…";
   subtitleEl.textContent = "";
 
-  // Tap-to-play: do NOT autoplay, do NOT force muted
-  videoEl.autoplay = false;
-  videoEl.preload = "auto";
-  videoEl.muted = false;
 
   const clip = await fetchClipData();
 
@@ -44,16 +40,42 @@ async function setupClip() {
   subtitleEl.textContent = clip.subtitle;
 
   videoEl.src = clip.videoUrl;
+  
   if (clip.posterUrl) videoEl.poster = clip.posterUrl;
-
-  // Helps some mobile browsers pick up the new src promptly
+  videoEl.preload = "auto";
   videoEl.load();
+
+  const started = await autoplayMuted(videoEl);
+
+  const hintText = document.getElementById("hintText");
+  hintText.textContent = started
+    ? "Tap the video for sound + fullscreen 🔊"
+    : "Tap the video to play 🔊";
+
 }
 
 function initVideoControls() {
   const videoEl = document.getElementById("clipVideo");
   const playButton = document.getElementById("playButton");
   const hintText = document.getElementById("hintText");
+
+  let upgraded = false;
+
+  function onVideoTap(e) {
+    if (e.type === "touchstart") e.preventDefault();
+
+    if (!upgraded) {
+      upgraded = true;
+      maximizeAndUnmute(videoEl);
+    } else {
+      if (videoEl.paused) videoEl.play();
+      else videoEl.pause();
+    }
+  }
+
+  videoEl.addEventListener("click", onVideoTap);
+  videoEl.addEventListener("touchstart", onVideoTap, { passive: false });
+
 
   function playFromStart(e) {
     if (e && e.type === "touchstart") e.preventDefault();
@@ -91,3 +113,39 @@ window.addEventListener("load", async () => {
   }
   initVideoControls();
 });
+
+async function autoplayMuted(videoEl) {
+  videoEl.muted = true;
+  videoEl.autoplay = true;
+  videoEl.playsInline = true;
+
+  try {
+    await videoEl.play();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function maximizeAndUnmute(videoEl) {
+  // Must be called from a user gesture event handler
+  videoEl.muted = false;
+
+  // Try to enter fullscreen (varies by browser)
+  const requestFs =
+    videoEl.requestFullscreen ||
+    videoEl.webkitRequestFullscreen ||
+    videoEl.webkitEnterFullscreen; // iOS Safari often supports this one
+
+  try {
+    if (requestFs) requestFs.call(videoEl);
+  } catch {
+    // Fullscreen may fail; ignore and still try to play with sound
+  }
+
+  try {
+    await videoEl.play();
+  } catch {
+    // If it still fails, user can hit play via controls/button
+  }
+}
