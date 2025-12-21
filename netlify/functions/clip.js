@@ -36,12 +36,11 @@ exports.handler = async (event) => {
     .replace(/\\n/g, "\n")
     .replace(/\r/g, "");
 
-  // Your header is "BEGIN RSA PRIVATE KEY" → pkcs1
-  const keyObject = createPrivateKey({
-    key: pem,
-    format: "pem",
-    type: "pkcs1",
-  });
+const keyObject = createPrivateKey({
+key: pem,
+format: "pem",
+type: "pkcs8",
+});
 
   console.log("asymmetricKeyType:", keyObject.asymmetricKeyType); // should print "rsa"
 
