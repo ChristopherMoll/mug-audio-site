@@ -6,7 +6,7 @@ const CLIPS = {
   "1": {
     title: "Merry Christmas, Mommy 🎄",
     subtitle: "A little message from your favorite boy.",
-    playbackId: "xlGLxjFxEWro97gj4PgRxuP6sGDaQRvQ00400OzBEeSn8"
+    playbackId: "fWn7BhrgVkqTeHlAdD42Y9WpcK00u7xRhmaJV92qT7PI"
   }
 };
 
