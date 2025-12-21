@@ -1,12 +1,16 @@
 const jwt = require("jsonwebtoken");
 const { createPrivateKey } = require("crypto");
 
-// Safe to commit: these are NOT secrets.
-// For Mux signed playback, these would be "Signed Playback IDs".
+
 const CLIPS = {
   "1": {
-    title: "Merry Christmas, Mommy 🎄",
-    subtitle: "A little message from your favorite boy.",
+    title: "Merry Christmas, Mamia & Pop-Pop 🎄",
+    subtitle: "Here's a glimpse of my Christmas morning!",
+    playbackId: "fWn7BhrgVkqTeHlAdD42Y9WpcK00u7xRhmaJV92qT7PI"
+  },
+  "2": {
+    title: "Merry Christmas, Grandma 🎄",
+    subtitle: "Here's a glimpse of my Christmas morning!",
     playbackId: "fWn7BhrgVkqTeHlAdD42Y9WpcK00u7xRhmaJV92qT7PI"
   }
 };
@@ -23,7 +27,6 @@ exports.handler = async (event) => {
   const code = qs.c || "";
 
   // Optional gate to stop random people minting tokens if endpoint is discovered.
-  // Put ORNAMENT_CODE in Netlify env vars. Add ?c=... to your NFC URL.
   if (process.env.ORNAMENT_CODE && code !== process.env.ORNAMENT_CODE) {
     return { statusCode: 403, body: "Forbidden" };
   }
