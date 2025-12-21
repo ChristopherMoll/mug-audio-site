@@ -48,10 +48,11 @@ type: "pkcs8",
   console.log("asymmetricKeyType:", keyObject.asymmetricKeyType); // should print "rsa"
 
   const token = jwt.sign(
-    { sub: clip.playbackId, exp: now + 60 },
-    keyObject,
-    { algorithm: "RS256", keyid: process.env.MUX_SIGNING_KEY_ID }
-  );
+  { sub: clip.playbackId, aud: "v", exp: now + 60 },
+  keyObject,
+  { algorithm: "RS256", keyid: process.env.MUX_SIGNING_KEY_ID }
+);
+
 
   const videoUrl = `https://stream.mux.com/${clip.playbackId}.m3u8?token=${encodeURIComponent(token)}`;
 
