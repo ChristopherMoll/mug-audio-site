@@ -42,6 +42,10 @@ format: "pem",
 type: "pkcs8",
 });
 
+const pem = (process.env.MUX_SIGNING_KEY_PRIVATE || "").replace(/\\n/g, "\n").replace(/\r/g, "");
+console.log("pem header:", pem.split("\n")[0]);
+
+
   console.log("asymmetricKeyType:", keyObject.asymmetricKeyType); // should print "rsa"
 
   const token = jwt.sign(
