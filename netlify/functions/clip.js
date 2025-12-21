@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { createPrivateKey } = require("crypto");
 
-
 // Safe to commit: these are NOT secrets.
 // For Mux signed playback, these would be "Signed Playback IDs".
 const CLIPS = {
@@ -30,12 +29,6 @@ exports.handler = async (event) => {
   }
 
   const clip = (requestedId && CLIPS[requestedId]) ? CLIPS[requestedId] : pickRandomClip();
-
-  const now = Math.floor(Date.now() / 1000);
-  const { createPrivateKey } = require("crypto");
-
-exports.handler = async (event) => {
-  // ... your existing code above ...
 
   const now = Math.floor(Date.now() / 1000);
 
@@ -71,21 +64,4 @@ exports.handler = async (event) => {
     })
   };
 };
-
-
-  const videoUrl = `https://stream.mux.com/${clip.playbackId}.m3u8?token=${encodeURIComponent(token)}`;
-
-  return {
-    statusCode: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": "no-store"
-    },
-    body: JSON.stringify({
-      title: clip.title,
-      subtitle: clip.subtitle,
-      posterUrl: clip.posterUrl || null,
-      videoUrl
-    })
-  };
 };
