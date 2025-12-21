@@ -30,9 +30,10 @@ exports.handler = async (event) => {
   const clip = (requestedId && CLIPS[requestedId]) ? CLIPS[requestedId] : pickRandomClip();
 
   const now = Math.floor(Date.now() / 1000);
+  const privateKey = process.env.MUX_SIGNING_KEY_PRIVATE.replace(/\\n/g, "\n");
   const token = jwt.sign(
     { sub: clip.playbackId, exp: now + 60 }, // 60 seconds
-    process.env.MUX_SIGNING_KEY_PRIVATE,
+    privateKey,
     { algorithm: "RS256", keyid: process.env.MUX_SIGNING_KEY_ID }
   );
 
