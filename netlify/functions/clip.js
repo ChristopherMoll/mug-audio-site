@@ -31,6 +31,7 @@ exports.handler = async (event) => {
 
   const now = Math.floor(Date.now() / 1000);
   const privateKey = process.env.MUX_SIGNING_KEY_PRIVATE.replace(/\\n/g, "\n");
+  console.log("private key lines:", privateKey.split("\n").length);
   const token = jwt.sign(
     { sub: clip.playbackId, exp: now + 60 }, // 60 seconds
     privateKey,
