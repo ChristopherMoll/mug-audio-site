@@ -76,31 +76,6 @@ function initVideoControls() {
   videoEl.addEventListener("click", onVideoTap);
   videoEl.addEventListener("touchstart", onVideoTap, { passive: false });
 
-
-  function playFromStart(e) {
-    if (e && e.type === "touchstart") e.preventDefault();
-
-    videoEl.muted = false;
-    videoEl.currentTime = 0;
-
-    videoEl.play()
-      .then(() => {
-        playButton.classList.add("playing");
-        playButton.textContent = "Playing… 🎧";
-        hintText.textContent = "Tap again if you want to watch it once more.";
-      })
-      .catch(() => {
-        hintText.textContent = "If it didn’t play, tap again (some phones require a second tap).";
-      });
-  }
-
-  playButton.addEventListener("click", playFromStart);
-  playButton.addEventListener("touchstart", playFromStart, { passive: false });
-
-  videoEl.addEventListener("ended", () => {
-    playButton.classList.remove("playing");
-    playButton.textContent = "Play again 🎬";
-  });
 }
 
 window.addEventListener("load", async () => {
