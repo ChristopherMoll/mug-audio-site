@@ -6,20 +6,8 @@ const CLIPS = {
   "1": {
     title: "Merry Christmas, Mommy 🎄",
     subtitle: "A little message from your favorite boy.",
-    playbackId: "REPLACE_ME_SIGNED_PLAYBACK_ID_1",
+    playbackId: "xlGLxjFxEWro97gj4PgRxuP6sGDaQRvQ00400OzBEeSn8",
     posterUrl: "https://example.com/clip-1-poster.jpg" // optional
-  },
-  "2": {
-    title: "Snuggles & Hot Cocoa ☕",
-    subtitle: "Tap to watch something cozy.",
-    playbackId: "REPLACE_ME_SIGNED_PLAYBACK_ID_2",
-    posterUrl: "https://example.com/clip-2-poster.jpg"
-  },
-  "3": {
-    title: "Christmas Giggles 😄",
-    subtitle: "Tap to hear his laugh.",
-    playbackId: "REPLACE_ME_SIGNED_PLAYBACK_ID_3",
-    posterUrl: "https://example.com/clip-3-poster.jpg"
   }
 };
 
