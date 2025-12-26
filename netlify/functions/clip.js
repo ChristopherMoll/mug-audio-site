@@ -6,12 +6,12 @@ const CLIPS = {
   "1": {
     title: "Merry Christmas, Mamia & Pop-Pop 🎄",
     subtitle: "Here's a glimpse of my Christmas morning!",
-    playbackId: "fWn7BhrgVkqTeHlAdD42Y9WpcK00u7xRhmaJV92qT7PI"
+    playbackId: "02yEttD2RlWOyBkpyUmfURILIzWsRgsnm594Fri5L6X00"
   },
   "2": {
     title: "Merry Christmas, Grandma 🎄",
     subtitle: "Here's a glimpse of my Christmas morning!",
-    playbackId: "fWn7BhrgVkqTeHlAdD42Y9WpcK00u7xRhmaJV92qT7PI"
+    playbackId: "02yEttD2RlWOyBkpyUmfURILIzWsRgsnm594Fri5L6X00"
   }
 };
 
